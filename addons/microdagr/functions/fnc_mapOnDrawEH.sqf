@@ -36,7 +36,7 @@ if (GVAR(currentApplicationPage) == 1) then {
             };
         } else {
             if (GVAR(currentWaypoint) < (count _waypoints)) then {
-                _targetPos = (_waypoints select GVAR(currentWaypoint)) select 1;
+                _targetPos = [(_waypoints select GVAR(currentWaypoint)) select 1] call FUNC(getWaypointTargetPosASL);
             };
         };
         if ((count _targetPos) == 3) then {
@@ -59,8 +59,9 @@ if (GVAR(currentApplicationPage) == 1) then {
     if (GVAR(settingShowAllWaypointsOnMap)) then {
         _size = 32 * _mapSize;
         {
-            _x params ["_wpName", "_wpPos"];
+            _x params ["_wpName", "_wpTarget"];
             private _alpha = if (_forEachIndex == GVAR(currentWaypoint)) then {1} else {0.5};
+            private _wpPos = [_wpTarget] call FUNC(getWaypointTargetPosASL);
             _theMap drawIcon [QUOTE(PATHTO_R(images\icon_mapWaypoints.paa)), [1,1,1,_alpha], _wpPos, _size, _size, 0, '', 0 ];
         } forEach _waypoints;
     };

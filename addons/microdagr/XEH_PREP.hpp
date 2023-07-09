@@ -9,6 +9,7 @@ PREP(deviceAddWaypoint);
 PREP(deviceDeleteWaypoint);
 PREP(deviceGetWaypoints);
 PREP(dialogClosedEH);
+PREP(getWaypointTargetPosASL);
 PREP(mapButtonDownEH);
 PREP(mapDoubleTapEH);
 PREP(mapOnDrawEH);

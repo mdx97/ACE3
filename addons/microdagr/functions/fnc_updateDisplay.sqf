@@ -78,7 +78,7 @@ case (APP_MODE_INFODISPLAY): {
             } else {
                 if (GVAR(currentWaypoint) > ((count _waypoints) - 1)) exitWith {ERROR("bounds");};
                 _targetPosName = (_waypoints select GVAR(currentWaypoint)) select 0;
-                _targetPosLocationASL = (_waypoints select GVAR(currentWaypoint)) select 1;
+                _targetPosLocationASL = [(_waypoints select GVAR(currentWaypoint)) select 1] call FUNC(getWaypointTargetPosASL);
             };
 
             if (_targetPosLocationASL isNotEqualTo []) then {
@@ -131,7 +131,7 @@ case (APP_MODE_COMPASS): {
             } else {
                 if (GVAR(currentWaypoint) > ((count _waypoints - 1))) exitWith {ERROR("bounds");};
                 _targetPosName = (_waypoints select GVAR(currentWaypoint)) select 0;
-                _targetPosLocationASL = (_waypoints select GVAR(currentWaypoint)) select 1;
+                _targetPosLocationASL = [(_waypoints select GVAR(currentWaypoint)) select 1] call FUNC(getWaypointTargetPosASL);
             };
 
             _bearingText = "---";
@@ -160,7 +160,8 @@ case (APP_MODE_WAYPOINTS): {
 
         lbClear _wpListBox;
         {
-            _x params ["_wpName", "_wpPos"];
+            _x params ["_wpName", "_wpTarget"];
+            private _wpPos = [_wpTarget] call FUNC(getWaypointTargetPosASL);
             _wpListBox lbAdd _wpName;
             private _2dDistanceKm = ((getPosASL ACE_player) distance2D _wpPos) / 1000;
             _wpListBox lbSetTextRight [_forEachIndex, (format ["%1km", _2dDistanceKm toFixed GVAR(waypointPrecision)])];
